@@ -1,0 +1,63 @@
+{
+    "meta" : {
+        "label": "Teradata Connection Preset",
+        "description": "You can define connection presets here",
+        "icon": "icon-teradata"
+    },
+    "defaultDefinableInline": true,
+    "defaultDefinableAtProjectLevel": true,
+
+    "pluginParams": [],
+
+    "params": [
+        {
+            "name": "host",
+            "label": "Host",
+            "type": "STRING"
+        },
+        {
+            "name": "user",
+            "label": "Username",
+            "type": "STRING"
+        },
+        {
+            "name": "password",
+            "label" : "Password",
+            "type": "PASSWORD"
+          },
+        {
+            "name": "database",
+            "label": "Database",
+            "type": "STRING"
+        },
+
+        // A "SELECT" parameter is a multi-choice selector. Choices are specified using the selectChoice field
+        {
+            "name": "logmech",
+            "label":"Logmech",
+            "type": "SELECT",
+            "selectChoices": [
+                {
+                    "value": "TD2",
+                    "label": "TD2 (default)"
+                },
+                {
+                    "value": "LDAP",
+                    "label": "LDAP"
+                },
+                {
+                    "value": "JWT",
+                    "label": "JWT"
+                },
+                {
+                    "value": "KRB5",
+                    "label": "KRB5 (for Kerberos)"
+                },
+                {
+                    "value": "TDNEGO",
+                    "label": "TDNEGO"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+def do(payload, config, plugin_config, inputs):
+    if payload.get('parameterName') == 'table_name':
+        from dataiku import SQLExecutor2
+        database_name = str(get_recipe_config()["database_name"])
+        c =  SQLExecutor2(connection = database_name)
+        query = f"SELECT DatabaseName, TableName FROM dbc.tables WHERE tablekind = 'T' and databasename='{database_name}'"
+        table_names = c.query_to_df(query)
+        dict_names = table_names.set_index('TableName').to_dict()['DatabaseName']
+        choices = []
+        for key in dict_names:
+            dict = { "value" : key.strip(), "label" : key.strip()}
+            choices.append(dict)
+        return {"choices": choices} 

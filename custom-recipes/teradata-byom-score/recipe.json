@@ -1,0 +1,241 @@
+// This file is the descriptor for the Custom code recipe byom-scoring
+{
+    // Meta data for display purposes
+    "meta": {
+        // label: name of the recipe as displayed, should be short
+        "label": "BYOM – Scoring",
+        // description: longer string to help end users understand what this recipe does
+        "description": "In-Database scoring with ML models stored in Teradata Vantage tables via the Teradata BYOM software.",
+        // icon: must be one of the FontAwesome 3.2.1 icons, complete list here at https://fontawesome.com/v3.2.1/icons/
+        "icon": "icon-teradata",
+        "iconColor": "orange"
+    },
+
+    "kind": "PYTHON",
+    
+
+    // Inputs and outputs are defined by roles. In the recipe's I/O tab, the user can associate one
+    // or more dataset to each input and output role.
+
+    // The "arity" field indicates whether the user can associate several datasets to the role ('NARY')
+    // or at most one ('UNARY'). The "required" field indicates whether the user is allowed to
+    // associate no dataset with the role.
+
+    "inputRoles": [
+        {
+            "name": "input_dataset",
+            "label": "Input Dataset",
+            "description": "Select the input dataset with which you want to score the model",
+            "arity": "UNARY",
+            "required": true,
+            "acceptsDataset": true
+        }
+        // ...
+    ],
+
+    "outputRoles": [
+        {
+            "name": "output_dataset",
+            "label": "Output Dataset",
+            "description": "Select the output dataset where you want to store the scored data",
+            "arity": "UNARY",
+            "required": true,
+            "acceptsDataset": true
+        }
+        // ...
+    ],
+
+    "paramsPythonSetup": "computechoices.py",
+    "params": [
+        {
+            "name": "sep1",
+            "label": "NOTE : This recipe works on Teradata tables only",
+            "type": "SEPARATOR"
+        },
+        {
+            "name": "Predict Functionality Info",
+            "label": "Specify BYOM Scoring Information :",
+            "type": "SEPARATOR"
+        },
+        {
+            "name": "scoring_type",
+            "label":"Scoring Model Type",
+            "description": "Select the scoring model type",
+            "defaultValue": "dataiku",
+            "type": "SELECT",
+            "selectChoices": [
+                {
+                    "value": "dataiku",
+                    "label": "PMML"
+                },
+                {
+                    "value": "h2o",
+                    "label": "H2O MOJO"
+                }
+            ]
+       },
+      {
+        "name": "H2O_Model_Type",
+        "label": "H2O Model Type",
+        "description": "Select the desired h2o model type for scoring",
+        "visibilityCondition" : "model.scoring_type == 'h2o'",
+        "defaultValue": "h2o_dai",
+        "type": "SELECT",
+        "selectChoices": [
+             {
+                 "value": "h2o_dai",
+                 "label": "DAI"
+             },
+             {
+                 "value": "h2o_opensource",
+                 "label": "OPENSOURCE"
+             }
+         ]
+      },
+      {
+        "name": "PMMLPredict_database_name",
+        "label": "PMMLPredict database name",
+        "description": "Select the Database name where the BYOM PMML/H2O Predict function resides",
+        "defaultValue": "mldb_db",
+        "type": "SELECT",
+        "selectChoices": [
+             {
+                  "value": "mldb_db",
+                  "label": "mldb"
+             },
+             {
+                  "value": "user_choice",
+                  "label": "INPUT-DB-NAME"
+             }
+         ]
+      },
+      {
+        //This is only visible when user selects non-default PMMLPredict database name
+        "name": "BYOM_Predict_User_DB",
+        "label": " ",
+        "type": "STRING",
+        "description": "Enter the database name for accessing PMMLPredict function",
+        "visibilityCondition" : "model.PMMLPredict_database_name == 'user_choice'"
+      },
+      {
+            "name": "model_info_separator",
+            "label": "Specify Scoring Model Information :",
+            "type": "SEPARATOR"
+      },
+      {
+        "name": "user_DBInput_Choice",
+        "label": "Model DB Name Input choice",
+        "type": "SELECT",
+        "description": "Choose whether to select from a list or specify the Model’s table DB Name",
+        "selectChoices": [
+             {
+                  "value": "db_drop_down",
+                  "label": "DATABASE-LIST"
+             },
+             {
+                  "value": "user_db_choice",
+                  "label": "INPUT-DB-NAME"
+             }
+         ]
+      },
+      {
+        "name": "model_database_name",
+        "label": " ",
+        "getChoicesFromPython": true,
+        "type": "SELECT",
+        "description": "Select the Model Table's database name from these list",
+        "visibilityCondition" : "model.user_DBInput_Choice == 'db_drop_down'"
+      },
+      {
+        "name": "user_Typed_DBName",
+        "label": " ",
+        "type": "STRING",
+        "description": "Enter database name for the Model-table",
+        "defaultValue": "",
+        "visibilityCondition" : "model.user_DBInput_Choice == 'user_db_choice'"
+      },
+      {
+        "name": "user_TBLInput_Choice",
+        "label": "Model Table Name Input choice",
+        "type": "SELECT",
+        "description": "Choose whether to select from a list or specify the Model’s table Name",
+        "selectChoices": [
+             {
+                  "value": "tbl_drop_down",
+                  "label": "TABLES-LIST"
+             },
+             {
+                  "value": "user_tbl_choice",
+                  "label": "INPUT-TABLE-NAME"
+             }
+         ]
+      },
+      {
+        "name": "user_Typed_TBLName",
+        "label": " ",
+        "type": "STRING",
+        "description": "Enter Model-table Name",
+        "defaultValue": "",
+        "visibilityCondition" : "model.user_TBLInput_Choice == 'user_tbl_choice'"
+      },
+      {
+        "name": "table_name",
+        "label": " ",
+        "getChoicesFromPython": true,
+        "type": "SELECT",
+        "description": "Select Model Table name from tables list",
+        "visibilityCondition" : "model.user_TBLInput_Choice == 'tbl_drop_down'"
+      },
+      {
+        "name": "model_name",
+        "label": "Model Id/Name",
+        //"type": "STRING",
+        "getChoicesFromPython": true,
+        "type": "SELECT",
+        "description": "Enter the model id"
+      },
+      {
+         "name": "accumulate_all",
+         "label" : "Accumulate All Columns",
+         "description": "Check this box to accumulate all the columns",
+         "type": "BOOLEAN"
+      },
+      {
+          "name": "accumulate_column_names",
+          "label": "Accumulate Specific Columns",
+          "type": "COLUMNS",
+          "columnRole":"input_dataset",
+          "description": "Select the columns you want to accumulate",
+          "visibilityCondition" : "!model.accumulate_all"
+      },
+      {
+          "name": "modeloutputfields_user",
+          "label" : "ModelOutputFields",
+          "description": "Check this box to use ModelOutputFields",
+          "type": "BOOLEAN"
+      },
+      {
+          "name": "modeloutputfields_values",
+          "label": "ModelOutputFields Columns",
+          "type": "STRING",
+          "description": "Enter the json_report column names to be parsed with a ',' delimiter",
+          "visibilityCondition" : "model.modeloutputfields_user"
+      },
+      {
+          "name": "overwrite_cache",
+          "label" : "Overwrite model cache",
+          "description": "Check this box to overwrite model in cache",
+          "defaultValue": true,
+          "type": "BOOLEAN"
+      }
+    ],
+   
+    // The field "resourceKeys" holds a list of keys that allows to limit the number
+    // of concurrent executions and activities triggered by this recipe.
+    //
+    // Administrators can configure the limit per resource key in the Administration > Settings > Flow build
+    // screen.
+
+    "resourceKeys": []
+
+}
