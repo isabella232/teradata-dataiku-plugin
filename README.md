@@ -1,89 +1,49 @@
-# Teradata Vantage SQL Engine Functions Plugin
+# Teradata Plugin
 
-For proper monitoring of deployed ML models, a considerate data scientist/ML engineer want to check new data looks like training data.
-
-## Scope of the plugin
-
-The Teradata Vantage SQL Engine Functions Plugin allows end users to leverage Vantage analytics within their DSS data science workflows. This plugin provides support for a majority of the Advanced SQL Engine analytics functions in 16.20.
+A collection of recipes that interface Teradata Vantage in-Database analytic tools to Dataiku users.
 
 
-## Installation and requirements
+## Scope Of The Plugin
 
-Please see our [official plugin page](https://www.teradata.com/TBD/) for installation.
+The Teradata plugin enhances Dataiku's built-in interaction capabilities with Teradata Vantage systems. The plugin provides visual recipes for scaled, in-Database Analytics with your Vantage data. The present version of the plugin features the following recipes:
 
-To install the Teradata Vantage SQL Engine Functions plugin for Dataiku DSS, perform the following:
-
-1. In DSS Settings page (accessible through the Admin Tools button), select the [Plugins] tab, then select the [ADVANCED] option.
-2. Click on [Choose File] and browse to the location of the present plugin zip file in your local filesystem.
-3. If a previous installation of present plugin exists, check "Is update".
-4. Click on [UPLOAD] button.
-5. When the upload succeeds, click on [Reload] button, or do a hard refresh (Ctrl + F5) on all open Dataiku browsers for the change to take effect.
-
-Documentation for the present plugin exists in the folder "resource/documentation" of the plugin zip file.
+* Analytic Functions - Data Transformation
+* Analytic Functions - Time Series Analysis
+* BYOM - Model Export to Vantage
+* BYOM - Scoring
+* SCRIPT Table Operator Analysis
 
 
-## Changelog
+## Requirements
 
-**Version 2.0-2 (2021-04)**
+Please see the [official plugin page](https://www.dataiku.com/product/plugins) for complete details.
 
-* Bug fix: The functions visual interface was distorted in DSS v.8.0.x.
-* Bug fix: An older version of the functions JSON file caused the Pack and Unpack functions to invoke the nonexistent argument “Columns” instead of “Column”. Fix was made inline in existing JSON file.
+To use the Teradata plugin:
 
-**Version 2.0-1 (2021-04)**
-
-* Initial release
-
-You can log feature requests or issues on our [dedicated Github repository](https://github.com/TBD/issues).
+* You will need access credentials to establish a connection to a target Vantage Advanced SQL Engine.
+* To connect to a Vantage Advanced SQL Engine, the [Teradata JDBC Driver](https://downloads.teradata.com/download/connectivity/jdbc-driver). Version 16.20 or later is required.
 
 
-## System Requirements
+## Installation
 
-The following component versions are required for the Teradata Vantage Plugin:
+Please see the [official plugin page](https://www.dataiku.com/product/plugins) for complete details.
 
-1. Dataiku Data Science Studio version 8.0.2 - TBD
-2. Teradata Vantage 2.0
-3. Teradata JDBC Driver 16.20 (minimum), Teradata JDBC Driver 17.00 (recommended)
+To install the Teradata plugin for Dataiku from a zip file on your client, perform the following:
 
-
-## Limitations
-
-1. For analytic functions that:
-   - take in output table names as arguments, and
-   - where the select query produces only a message table indicating the name of the output model/metrics table, it is the responsibility of the user to specify output table names that are different from those of the existing tables.
-   Some analytic functions provide an option to delete an already existing output table prior to executing an algorithm, but others do not. In the former case, the Advanced SQL Engine throws an "Already exists" exception.
-
-2. The plugin only supports Vantage Advanced SQL Engine Database datasets as input and output.
-
-3. Due to the mode the plugin creates output tables, the function output is checked for duplicate rows. If any duplicate rows are found, then they are removed from the output table. This behavior is not adjustable in the present version of the plugin.
-
-4. Functions with any OUTPUT TABLE type arguments will require the user to add an output dataset for the SELECT statement results of the query and any additional output tables. Please refer to the Vantage Advanced SQL Engine Analytic Functions documentation page at docs.teradata.com to learn about the output tables of each function.
-
-5. The following Advanced SQL Engine functions are not supported:
-   - DecisionForestPredict
-   - DecisionTreePredict
-   - GLMPredict
-   - NaiveBayesPredict
-   - NaiveBayesTextClassifierPredict
-   - SVMSparsePredict
+1. Access the Dataiku Settings page through the **Admin Tools** button, and select the **Plugins** tab.
+2. On the plugins page, go to the **ADD PLUGIN** menu on the top right, and click on the option **Upload**.
+3. Click and navigate to the location of the plugin zip file in your local filesystemon **Choose File** and browse to the location of the present plugin zip file in your local filesystem.
+4. If a previous installation of present plugin exists, then check the button next to the note about installing an update for an installed plugin.
+5. Click on **UPLOAD** button.
+6. Upon a successful upload, continue with building the plugin code environment. When the plugin is installed, you typically need to refresh the environment so that changes take effect. One way is to return to the plugins page and select the **INSTALLED** tab on the resulting screen. Then, push the **RELOAD ALL** button on the top right corner of the screen. Another way is to do a hard refresh by pushing (Ctrl + F5) on all open Dataiku browsers.
 
 
 ## References
 
-For additional information on the Teradata Vantage Advanced SQL Engine analytic functions, search for the following on docs.teradata.com:
+For additional information, see the following links on docs.teradata.com:
 
-1. "Advanced SQL Engine Analytic Functions Overview".
-2. "Teradata Vantage Advanced SQL Engine Analytic Functions".
-3. "Teradata Vantage User Guide".
-
-
-# License
-
-The Teradata Vantage SQL Engine Functions Plugin is:
-
-   Copyright © 2021 by Teradata.
-   Licensed under the [TBD](LICENSE).
-
-
-
-
-
+1. [Teradata Vantage User Guide](https://docs.teradata.com/r/Teradata-VantageTM-User-Guide/March-2022).
+2. [Advanced SQL Engine Analytic Functions Overview](https://docs.teradata.com/r/Teradata-VantageTM-Advanced-SQL-Engine-Analytic-Functions/July-2021/Introduction-to-Teradata-Vantage/Advanced-SQL-Engine-Analytic-Functions-Overview).
+3. [Teradata Vantage Advanced SQL Engine Analytic Functions](https://docs.teradata.com/r/Teradata-VantageTM-Advanced-SQL-Engine-Analytic-Functions/July-2021).
+4. [BYOM Documentation](https://docs.teradata.com/r/dLArVI09J62c8byzVbHMtw/9o1NRFSFme5IT151mSs2gw).
+5. Teradata Orange Book Series: “R And Python Analytics with the SCRIPT Table Operator”. The direct [PDF link](https://docs.teradata.com/v/u/Orange-Book/R-and-Python-Analytics-with-SCRIPT-Table-Operator-Orange-Book-4.3.2) has restricted access to Teradata customers and partners; sign-in is needed.

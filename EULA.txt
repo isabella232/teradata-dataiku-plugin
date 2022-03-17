@@ -1,10 +1,10 @@
-Teradata Plugins For Dataiku
-Teradata BYOM Plugin version 1.0.0
-Copyright (c) 2021 Teradata.  All rights reserved.
+Teradata Plugin For Dataiku
+Version 2.0
+Copyright (c) 2022 Teradata.  All rights reserved.
 
 LICENSE AGREEMENT
 
-PRODUCT: Teradata BYOM Plugin
+PRODUCT: Teradata Plugin
 
 IMPORTANT-READ THIS AGREEMENT CAREFULLY BEFORE INSTALLING, DOWNLOADING, OR USING
 THE APPLICABLE TERADATA SOFTWARE. TERADATA WILL LICENSE THE SOFTWARE TO YOU ONLY

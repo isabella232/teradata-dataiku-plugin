@@ -1,4 +1,4 @@
-Copyright © 2021 by Teradata.
+Copyright © 2022 by Teradata.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -16,7 +16,7 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-All the files in this plugin are licensed under a MIT license except Makefile, 
+All the files in this plugin are licensed under a MIT license except Makefile,
 which is copyright Dataiku and licensed under the Apache License 2.0.
 
 Changes to Makefile: removed the code to execute integration tests.
